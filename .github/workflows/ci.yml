@@ -1,0 +1,41 @@
+name: Validacion Infraestructura Terraform
+
+# Este workflow solo se activa con un pull request hacia la rama main
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  analisis_y_validacion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Inicializar Terraform (Requisito previo)
+        run: terraform init
+
+      # 1. Análisis estático con TFLint
+      - name: 1. Analisis Estatico (TFLint)
+        uses: terraform-linters/setup-tflint@v4
+      - name: Ejecutar TFLint
+        run: |
+          tflint --init
+          tflint
+
+      # 2. Análisis de seguridad con Checkov
+      - name: 2. Analisis de Seguridad (Checkov)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true # Permite que el pipeline siga aunque encuentre advertencias menores
+
+      # 3. Validación de Terraform
+      - name: 3. Validacion Terraform
+        run: terraform validate
