@@ -11,4 +11,4 @@ Este repositorio contiene la evaluación práctica para automatizar análisis de
 ## Definición del código Terraform
 Este proyecto despliega una VPC con subredes y una máquina virtual EC2 en AWS utilizando Terraform.
 
-Autor: Amaro Fuentes
+Autor: Amaro Antonio Fuentes Orellana
