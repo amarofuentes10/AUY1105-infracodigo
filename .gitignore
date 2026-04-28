@@ -1,0 +1,10 @@
+# Excluir directorios y archivos de Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# Excluir secretos y claves privadas
+*.pem
+*.key
+.env
